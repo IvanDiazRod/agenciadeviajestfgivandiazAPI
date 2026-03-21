@@ -1,19 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Auth\RegisterController;
-
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TourController;
 
 Route::get('/ping', function () {
-    return response()->json(['status' => 'ok']);
+    return ['message' => 'pong'];
 });
 
-Route::post('/register', [AuthController::class, 'register']);
+Route::get('/tours', [TourController::class, 'index']);
+Route::get('/tours/{id}', [TourController::class, 'show']);
 
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/user/photo', [AuthController::class, 'updateProfilePhoto']);
+});

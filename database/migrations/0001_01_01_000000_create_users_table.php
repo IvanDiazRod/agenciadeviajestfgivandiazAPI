@@ -6,25 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            // Campos personalizados para tu formulario
+            $table->string('firstname');
+            $table->string('surname');
+            $table->string('secondsurname')->nullable(); // nullable porque es opcional en tu React
+            $table->string('email')->unique();
+            $table->date('dateofbirth');
+            $table->string('gender');
+            
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
 
-    Schema::create('users', function (Blueprint $table) {
-        $table->id();
-        $table->string('firstname');
-        $table->string('surname');
-        $table->string('secondsurname')->nullable();
-        $table->string('email')->unique();
-        $table->date('dateofbirth');
-        $table->enum('gender', ['male', 'female', 'iprefernotsay']);
-        $table->string('password');
-        $table->timestamps();
-    });
-
-
+        // Estas tablas son necesarias para el funcionamiento interno de Laravel
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
@@ -41,9 +41,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');

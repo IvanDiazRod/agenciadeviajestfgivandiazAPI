@@ -13,13 +13,16 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
-    {
-        // User::factory(10)->create();
+public function run(): void
+{
+    // Comenta esto porque usa 'name' (que no existe en tu tabla)
+    
+    /*User::factory()->create([
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+    ]);*/
+    
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-    }
+    // Llama a tu seeder de Tours que es el que nos interesa ahora
+}
 }
