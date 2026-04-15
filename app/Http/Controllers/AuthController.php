@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth; // <--- ESTA ES LA QUE TE FALTA
 
 class AuthController extends Controller
 {
@@ -51,37 +52,31 @@ $user = User::create([
             'user'         => $user,
         ], 201);
     }
-    public function login(Request $request)
+public function login(Request $request)
 {
-    // 1. Validación básica
-    $validator = Validator::make($request->all(), [
-        'email'    => 'required|email',
-        'password' => 'required',
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
     ]);
 
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
+    if (!Auth::attempt($credentials)) {
+        return response()->json(['message' => 'Credenciales inválidas'], 401);
     }
 
-    // 2. Buscar al usuario
-    $user = User::where('email', $request->email)->first();
+    $user = Auth::user();
 
-    // 3. Verificar contraseña
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        return response()->json([
-            'message' => 'Invalid credentials'
-        ], 401);
-    }
+    // 1. (Opcional) Borramos tokens antiguos para no llenar la base de datos
+    $user->tokens()->delete();
 
-    // 4. Generar nuevo token
+    // 2. CREAMOS EL TOKEN PLANO AQUÍ
     $token = $user->createToken('auth_token')->plainTextToken;
 
+    // 3. SE LO ENVIAMOS A REACT
     return response()->json([
-        'message'      => 'Login successful',
         'access_token' => $token,
-        'token_type'   => 'Bearer',
-        'user'         => $user,
-    ], 200);
+        'token_type' => 'Bearer',
+        'user' => $user
+    ]);
 }
 public function updateProfilePhoto(Request $request)
 {
