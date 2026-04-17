@@ -37,6 +37,10 @@ class User extends Authenticatable
         : "https://ui-avatars.com/api/?name=" . urlencode($this->firstname);
 }
 
+public function flights() {
+    return $this->hasMany(Flight::class);
+}
+
     /**
      * Los atributos que deben estar ocultos en las respuestas JSON.
      */

@@ -27,14 +27,11 @@ public function up()
     });
 }
 
-public function down(): void
-{
-    Schema::table('users', function (Blueprint $table) {
-        // Solo intentamos borrarla si realmente existe
-        if (Schema::hasColumn('users', 'profile_photo_path')) {
-            $table->dropColumn('profile_photo_path');
-        }
-    });
-}
-
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('flights');
+    }
 };
