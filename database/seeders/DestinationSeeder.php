@@ -16,7 +16,7 @@ public function run()
         [
             'name' => 'Paris', 'slug' => 'paris', 'country' => 'France',
             'src' => '/img/cities/paris/France.avif', 'description' => 'The city of lights...',
-            'price' => 1200, 'images' => ["img/France.avif", "img/paris2.jpg"] // <--- Sin json_encode()
+            'price' => 1200, 'images' => ["/img/cities/paris/France.avif", "img/paris2.jpg"] // <--- Sin json_encode()
         ],
         // ... repite para Kyoto, Santorini, etc.
     ];

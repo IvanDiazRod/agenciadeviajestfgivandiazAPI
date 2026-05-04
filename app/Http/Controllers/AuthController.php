@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth; // <--- ESTA ES LA QUE TE FALTA
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -81,7 +81,7 @@ public function login(Request $request)
 public function updateProfilePhoto(Request $request)
 {
     $request->validate([
-        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Máximo 2MB
+        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:4096',
     ]);
 
     $user = $request->user();

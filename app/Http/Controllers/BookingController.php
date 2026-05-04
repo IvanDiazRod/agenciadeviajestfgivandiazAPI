@@ -108,4 +108,20 @@ class BookingController extends Controller
         }
         \Log::info('Registros de vuelos:', $flights->toArray());
     }
+    public function destroy($id)
+{
+    // Obtenemos al usuario autenticado por el Token
+    $user = auth()->user();
+
+    // Buscamos la reserva DENTRO de las reservas de ese usuario
+    $booking = $user->bookings()->find($id);
+
+    if (!$booking) {
+        return response()->json(['message' => 'Reserva no encontrada o no autorizada'], 404);
+    }
+
+    $booking->delete();
+
+    return response()->json(['message' => 'Reserva cancelada correctamente'], 200);
+}
 }
