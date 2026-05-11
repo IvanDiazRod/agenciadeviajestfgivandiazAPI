@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
      */
 public function run(): void
 {
-    // Comenta esto porque usa 'name' (que no existe en tu tabla)
     
     /*User::factory()->create([
         'name' => 'Test User',
@@ -23,6 +22,5 @@ public function run(): void
     ]);*/
     
 
-    // Llama a tu seeder de Tours que es el que nos interesa ahora
 }
 }

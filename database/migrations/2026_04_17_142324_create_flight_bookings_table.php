@@ -9,20 +9,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-Schema::create('flight_bookings', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('user_id')->constrained()->onDelete('cascade');
-    $table->foreignId('destination_id')->constrained(); // A dónde vuelan
-    $table->string('airline_name')->nullable();
-    $table->string('seat_number')->nullable();
-    $table->dateTime('departure_date');
-    $table->decimal('price', 8, 2);
-    $table->string('status')->default('confirmed');
-    $table->timestamps();
-});
-    }
+public function up(): void
+{
+    Schema::create('flight_bookings', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->foreignId('destination_id')->constrained();
+        $table->string('airline_name')->nullable();
+        $table->string('seat_number')->nullable();
+        $table->dateTime('departure_date');
+        $table->dateTime('return_date')->nullable();
+        $table->decimal('price', 8, 2);
+        $table->string('status')->default('confirmed');
+        $table->string('type')->default('outbound');
+        $table->integer('people_count')->default(1);
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.

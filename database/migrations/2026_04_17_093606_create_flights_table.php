@@ -13,7 +13,6 @@ public function up()
 {
     Schema::create('flights', function (Blueprint $table) {
         $table->id();
-        // Relacionamos el vuelo con un usuario
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
         
         $table->string('origin');
@@ -22,7 +21,7 @@ public function up()
         $table->dateTime('departure_date');
         $table->string('seat_number')->nullable();
         $table->decimal('price', 10, 2);
-        $table->string('status')->default('confirmed'); // Por defecto confirmado
+        $table->string('status')->default('confirmed');
         $table->timestamps();
     });
 }

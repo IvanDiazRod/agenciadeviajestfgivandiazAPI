@@ -10,21 +10,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            // Campos personalizados para tu formulario
             $table->string('firstname');
             $table->string('surname');
-            $table->string('secondsurname')->nullable(); // nullable porque es opcional en tu React
+            $table->string('secondsurname')->nullable();
             $table->string('email')->unique();
             $table->date('dateofbirth');
             $table->string('gender');
-            
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
 
-        // Estas tablas son necesarias para el funcionamiento interno de Laravel
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');

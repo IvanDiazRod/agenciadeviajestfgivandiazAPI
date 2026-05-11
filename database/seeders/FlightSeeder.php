@@ -10,7 +10,6 @@ class FlightSeeder extends Seeder
 {
     public function run(): void
     {
-        // Buscamos al primer usuario para asignarle los vuelos
         $user = User::first();
 
         if ($user) {

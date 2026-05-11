@@ -8,6 +8,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\FlightBookingController;
+use App\Http\Controllers\NewsletterController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -17,6 +18,8 @@ Route::get('/tours/{id}', [TourController::class, 'show']);
 
 Route::get('/destinations', [DestinationController::class, 'index']);
 Route::get('/destinations/{slug}', [DestinationController::class, 'show']);
+
+Route::post('/subscribe', [NewsletterController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     
@@ -32,5 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/flight-bookings', [FlightBookingController::class, 'store']);
 
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy']);
+    Route::delete('/flight-bookings/{id}', [FlightBookingController::class, 'destroy']);
+
+    Route::get('/flight-bookings/{id}/ticket', [FlightBookingController::class, 'downloadTicket']);
 
 });

@@ -17,7 +17,7 @@ Schema::create('bookings', function (Blueprint $table) {
     $table->foreignId('tour_id')->constrained()->onDelete('cascade');
     $table->date('travel_date');
     $table->integer('people_count')->default(1);
-    $table->string('status')->default('pending'); // pending, confirmed, cancelled
+    $table->string('status')->default('pending');
     $table->timestamps();
 });
     }

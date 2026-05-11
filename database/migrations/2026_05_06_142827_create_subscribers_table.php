@@ -11,14 +11,9 @@ return new class extends Migration
      */
 public function up(): void
 {
-    Schema::create('tours', function (Blueprint $table) {
+    Schema::create('subscribers', function (Blueprint $table) {
         $table->id();
-        $table->string('title');
-        $table->text('description'); 
-        $table->decimal('price', 10, 2);
-        $table->integer('duration_days');
-        $table->string('location');
-        $table->string('image_url')->nullable();
+        $table->string('email')->unique();
         $table->timestamps();
     });
 }
@@ -28,6 +23,6 @@ public function up(): void
      */
     public function down(): void
     {
-        Schema::dropIfExists('tours');
+        Schema::dropIfExists('subscribers');
     }
 };
