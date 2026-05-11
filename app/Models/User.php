@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens; // <--- NO OLVIDES ESTO PARA LOS TOKENS
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -36,7 +36,6 @@ public function flights() {
     return $this->hasMany(Flight::class);
 }
 
-// AÑADE ESTO:
 public function bookings() {
     return $this->hasMany(Booking::class);
 }
@@ -50,7 +49,7 @@ public function bookings() {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'dateofbirth' => 'date', // Opcional: para tratarlo como objeto Carbon
+            'dateofbirth' => 'date',
         ];
     }
 }

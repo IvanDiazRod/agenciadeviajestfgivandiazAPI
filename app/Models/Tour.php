@@ -18,7 +18,6 @@ class Tour extends Model
         'image_url'
     ];
 
-    // Relación: Un tour puede tener muchas reservas
     public function bookings()
     {
         return $this->hasMany(Booking::class);

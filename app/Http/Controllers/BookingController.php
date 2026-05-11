@@ -8,15 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-    /**
-     * Crear una nueva reserva (Tour o Vuelo)
-     */
     public function store(Request $request)
     {
         $request->validate([
             'tour_id' => 'nullable|exists:tours,id',
             'destination_id' => 'nullable|exists:destinations,id',
-            'flight_id' => 'nullable', // Asegúrate de tener esta columna en tu DB
+            'flight_id' => 'nullable',
             'travel_date' => 'required|date',
             'people_count' => 'required|integer|min:1',
         ]);
@@ -29,7 +26,6 @@ class BookingController extends Controller
                 'status' => 'confirmed',
             ];
 
-            // Asignamos el ID correspondiente según lo que venga en la petición
             if ($request->has('tour_id')) $data['tour_id'] = $request->tour_id;
             if ($request->has('destination_id')) $data['destination_id'] = $request->destination_id;
             if ($request->has('flight_id')) $data['flight_id'] = $request->flight_id;
@@ -46,9 +42,6 @@ class BookingController extends Controller
         }
     }
 
-    /**
-     * Obtiene SOLO los TOURS (Excluye vuelos)
-     */
     public function myBookings()
     {
         try {
@@ -58,13 +51,12 @@ class BookingController extends Controller
                 return response()->json(['message' => 'Usuario no identificado'], 401);
             }
 
-            // Filtramos: Que tenga Tour o Destino, pero que el campo de vuelo esté vacío
             $bookings = Booking::where('user_id', $userId)
                 ->where(function($query) {
                     $query->whereNotNull('tour_id')
                           ->orWhereNotNull('destination_id');
                 })
-                ->whereNull('flight_id') // <--- Esto evita que los vuelos salgan aquí
+                ->whereNull('flight_id')
                 ->with(['tour', 'destination'])
                 ->orderBy('travel_date', 'desc')
                 ->get();
@@ -80,9 +72,6 @@ class BookingController extends Controller
         \Log::info('Registros de tours:', $bookings->toArray());
     }
 
-    /**
-     * Obtiene SOLO los VUELOS (Excluye tours)
-     */
     public function myFlights()
     {
         try {
@@ -92,7 +81,6 @@ class BookingController extends Controller
                 return response()->json(['message' => 'Usuario no identificado'], 401);
             }
 
-            // Filtramos: Solo registros donde flight_id tenga valor
             $flights = Booking::where('user_id', $userId)
                 ->whereNotNull('flight_id')
                 ->orderBy('travel_date', 'desc')
@@ -110,10 +98,8 @@ class BookingController extends Controller
     }
     public function destroy($id)
 {
-    // Obtenemos al usuario autenticado por el Token
     $user = auth()->user();
 
-    // Buscamos la reserva DENTRO de las reservas de ese usuario
     $booking = $user->bookings()->find($id);
 
     if (!$booking) {
